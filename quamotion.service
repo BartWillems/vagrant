@@ -1,0 +1,14 @@
+[Unit]
+Description=The Quamotion WebDriver allows you to automate iOS and Android devices
+Wants=usbmuxd.service
+After=network.target
+
+[Service]
+User=ubuntu
+Type=simple
+ExecStart=/usr/share/quamotion/Quamotion.WebDriver --daemon
+WorkingDirectory=/usr/share/quamotion/
+ExecStop=/usr/bin/killall Quamotion.WebDriver
+
+[Install]
+WantedBy=multi-user.target

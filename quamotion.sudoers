@@ -1,0 +1,3 @@
+ubuntu ALL=NOPASSWD: /bin/systemctl start quamotion
+ubuntu ALL=NOPASSWD: /bin/systemctl stop quamotion
+ubuntu ALL=NOPASSWD: /bin/systemctl status quamotion
