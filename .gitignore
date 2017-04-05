@@ -3,3 +3,4 @@
 apps/
 devimg/
 *.license
+*.tar.gz

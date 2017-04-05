@@ -9,25 +9,57 @@ apt-get install -y libc6 libcurl3 libgcc1 libgssapi-krb5-2 libicu55 liblttng-ust
 echo "ubuntu:ubuntu" | chpasswd
 
 # Install python for simple scripting
-apt-get install -y python python-pip
-pip install selenium quamotion
+apt-get install -y python3 python3-pip
+pip3 install selenium quamotion
 
 # usbmuxd enables connections to iOS devices, and android-sdk-platform-tools-common adds
 # udev rules for Android devices
 apt-get install -y usbmuxd
 apt-get install -y android-sdk-platform-tools-common
 apt-get install -y jq libimobiledevice-utils
+apt-get install -y libgdiplus
 
 # Download and install the Quamotion software
 wget -nv -nc https://qmcdn.blob.core.windows.net/download/quamotion-webdriver.0.1.6515-ubuntu.16.04-x64.tar.gz -O /vagrant/quamotion-webdriver.0.1.6515-ubuntu.16.04-x64.tar.gz
 mkdir -p /usr/share/quamotion/
 tar -C /usr/share/quamotion/ -xzf /vagrant/quamotion-webdriver.0.1.6515-ubuntu.16.04-x64.tar.gz
 
+# Use the official Ubuntu files for these dependencies
+rm /usr/share/quamotion/libcairo.so.2
+ln -s /usr/lib/x86_64-linux-gnu/libcairo.so.2 /usr/share/quamotion/libcairo.so.2
+
+rm /usr/share/quamotion/libexif.so.12
+ln -s /usr/lib/x86_64-linux-gnu/libexif.so.12 /usr/share/quamotion/libexif.so.12
+
+rm /usr/share/quamotion/libfontconfig.so.1
+ln -s /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 /usr/share/quamotion/libfontconfig.so.1
+
+rm /usr/share/quamotion/libfreetype.so.6
+ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so.6 /usr/share/quamotion/libfreetype.so.6
+
+rm /usr/share/quamotion/libgdiplus.so
+ln -s /usr/lib/libgdiplus.so /usr/share/quamotion/libgdiplus.so
+
+rm /usr/share/quamotion/libgif.so.7
+ln -s /usr/lib/x86_64-linux-gnu/libgif.so.7 /usr/share/quamotion/libgif.so.7
+
+rm /usr/share/quamotion/libjpeg.so.8
+ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so.8 /usr/share/quamotion/libjpeg.so.8
+
+rm /usr/share/quamotion/libpixman-1.so.0
+ln -s /usr/lib/x86_64-linux-gnu/libpixman-1.so.0 /usr/share/quamotion/libpixman-1.so.0
+
+rm /usr/share/quamotion/libpng12.so.0
+ln -s /usr/lib/x86_64-linux-gnu/libpng12.so.0 /usr/share/quamotion/libpng12.so.0
+
+rm /usr/share/quamotion/libtiff.so.5
+ln -s /usr/lib/x86_64-linux-gnu/libtiff.so.5 /usr/share/quamotion/libtiff.so.5
+
 # Listen on all IP addresses; port forwarding on VMs arrives on the interface connected to the vLAN which has
 # a non-loopback IP
 cat /usr/share/quamotion/appsettings.json | jq '.webdriver.webDriverUrl="http://0.0.0.0:17894"' | tee /usr/share/quamotion/appsettings.tmp.json > /dev/null
-rm /usr/share/quamotion/appsettings.json
-mv /usr/share/quamotion/appsettings.tmp.json /usr/share/quamotion/appsettings.json
+cat /usr/share/quamotion/appsettings.tmp.json | jq '.webdriver.frontendEnabled=false' | tee /usr/share/quamotion/appsettings.json > /dev/null
+rm /usr/share/quamotion/appsettings.tmp.json
 
 # Enable running as a SystemD service
 mkdir -p /usr/lib/systemd/system/
