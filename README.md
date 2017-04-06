@@ -29,3 +29,15 @@ Navigate to http://localhost:8081/ to make sure the Vagrant box is working corre
 
 If you want to open a SSH connection to the VM, just type `vagrant ssh`.
 
+Prepopulating your Vagrant box
+------------------------------
+
+For the best experience, you can prepopulate your Vagrant box with iOS Developer Disk images,
+a Quamotion license and applications.
+
+To copy the iOS Developer Disk images, run the following command:
+
+```
+mkdir -p devimg
+cp -r /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/* devimg/
+```
