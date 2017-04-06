@@ -6,3 +6,26 @@ of automating iOS and Android devices using Quamotion.
 
 The VM includes Quamotion, running as a SystemD service, and the Python interface, which you can use
 for writing test automation scripts.
+
+Requirements
+------------
+
+To use this Vagrant box, you'll need to install:
+* [VirtualBox and the VirtualBox extension pack](https://www.virtualbox.org/wiki/Downloads)
+* [Vagrant](https://www.vagrantup.com/)
+* A Git client
+
+Getting started
+---------------
+
+```
+cd ~/
+git clone https://github.com/quamotion/vagrant
+cd vagrant
+vagrant up
+```
+
+Navigate to http://localhost:8081/ to make sure the Vagrant box is working correctly.
+
+If you want to open a SSH connection to the VM, just type `vagrant ssh`.
+
