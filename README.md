@@ -56,3 +56,27 @@ Then, launch the demo-ios.py Python script:
 ```
 /vagrant/demo-ios.py
 ```
+
+Useful commands
+---------------
+
+Start, restart and stop the Quamotion service:
+
+```
+sudo systemctl start quamotion
+sudo systemctl restart quamotion
+sudo systemctl stop quamotion
+```
+
+To enable or disable the front-end, edit `/usr/share/quamotion/appsettings.json` and set the `frontendEnabled` value to `true` or `false.
+
+Procedure for connecting an iOS device
+--------------------------------------
+
+* Open VirtualBox
+* Open the settings for your Vagrant VM
+* Click USB
+* Add your iPhome to your VM
+* You may need to unplug and reconnect your iPhone
+* On your iPhone, trust your VM if required
+* Restart the Quamotion service if required
