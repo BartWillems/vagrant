@@ -41,3 +41,18 @@ To copy the iOS Developer Disk images, run the following command:
 mkdir -p devimg
 cp -r /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/* devimg/
 ```
+
+Running a script
+----------------
+
+To run a demo script, first SSH into your box:
+
+```
+vagrant ssh
+```
+
+Then, launch the demo-ios.py Python script:
+
+```
+/vagrant/demo-ios.py
+```
