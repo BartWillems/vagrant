@@ -80,3 +80,8 @@ Procedure for connecting an iOS device
 * You may need to unplug and reconnect your iPhone
 * On your iPhone, trust your VM if required
 * Restart the Quamotion service if required
+
+Documentation
+-------------
+
+* [Selenium with Python](http://selenium-python.readthedocs.io/)
