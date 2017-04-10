@@ -80,6 +80,8 @@ Procedure for connecting an iOS device
 * You may need to unplug and reconnect your iPhone
 * On your iPhone, trust your VM if required
 * Restart the Quamotion service if required
+* In the WebDriver, make sure the device is visible and open the remote screen
+* On your device, go to Settings, Developer and active the Enable UI Automation options
 
 Documentation
 -------------
