@@ -13,16 +13,21 @@ apt-get install -y python3 python3-pip
 pip3 install selenium quamotion
 
 # usbmuxd enables connections to iOS devices, and android-sdk-platform-tools-common adds
-# udev rules for Android devices
-apt-get install -y usbmuxd
+# udev rules for Android devices; jq is used for scripting
 apt-get install -y android-sdk-platform-tools-common
-apt-get install -y jq libimobiledevice-utils
 apt-get install -y libgdiplus
+apt-get install -y jq
+
+# The version of usbmuxd which comes with Ubuntu 16.04 is slightly outdated; you can install from source
+# or just use the inbox version
+# /vagrant/install-usbmuxd.sh
+apt-get install -y usbmuxd libimobiledevice-utils
 
 # Download and install the Quamotion software
-wget -nv -nc https://qmcdn.blob.core.windows.net/download/quamotion-webdriver.0.1.6515-ubuntu.16.04-x64.tar.gz -O /vagrant/quamotion-webdriver.0.1.6515-ubuntu.16.04-x64.tar.gz
+version=0.1.6525.0
+wget -nv -nc https://qmcdn.blob.core.windows.net/download/quamotion-webdriver.$version-ubuntu.16.04-x64.tar.gz -O /vagrant/quamotion-webdriver.$version-ubuntu.16.04-x64.tar.gz
 mkdir -p /usr/share/quamotion/
-tar -C /usr/share/quamotion/ -xzf /vagrant/quamotion-webdriver.0.1.6515-ubuntu.16.04-x64.tar.gz
+tar -C /usr/share/quamotion/ -xzf /vagrant/quamotion-webdriver.$version-ubuntu.16.04-x64.tar.gz
 
 # Use the official Ubuntu files for these dependencies
 rm /usr/share/quamotion/libcairo.so.2
@@ -58,7 +63,7 @@ ln -s /usr/lib/x86_64-linux-gnu/libtiff.so.5 /usr/share/quamotion/libtiff.so.5
 # Listen on all IP addresses; port forwarding on VMs arrives on the interface connected to the vLAN which has
 # a non-loopback IP
 cat /usr/share/quamotion/appsettings.json | jq '.webdriver.webDriverUrl="http://0.0.0.0:17894"' | tee /usr/share/quamotion/appsettings.tmp.json > /dev/null
-cat /usr/share/quamotion/appsettings.tmp.json | jq '.webdriver.frontendEnabled=false' | tee /usr/share/quamotion/appsettings.json > /dev/null
+cat /usr/share/quamotion/appsettings.tmp.json | jq '.webdriver.frontendEnabled=true' | tee /usr/share/quamotion/appsettings.json > /dev/null
 rm /usr/share/quamotion/appsettings.tmp.json
 
 # Enable running as a SystemD service
