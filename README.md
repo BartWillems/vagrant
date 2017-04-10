@@ -83,6 +83,27 @@ Procedure for connecting an iOS device
 * In the WebDriver, make sure the device is visible and open the remote screen
 * On your device, go to Settings, Developer and active the Enable UI Automation options
 
+Monitoring Scripts with Centreon
+--------------------------------
+
+Monitoring the output of scripts with Centreon is easy! We recommend you execute your scripts remotely using
+SSH.
+
+To do so:
+
+* On your Centreon machine, set up a SSH which allows the poller to remotely connect to your WebDriver box:
+  ```
+  sudo su - centreon-engine
+  ssh-keygen -t rsa
+  ssh-copy-id {user}@{WebDriver-host}
+  ```
+* Under _Configuration_, _Commands_, add a new Check command which executes your script:
+  ```
+  $USER1$/check_by_ssh -H {WebDriver-host} -l {user} -C "{path_to_your_script}"
+  ```
+* Configure your host to use this script, or create a new service which uses this script
+* [Deploy your configuration](https://documentation.centreon.com/docs/centreon/en/latest/configuration_guide/deploy.html#deployconfiguration)
+
 Documentation
 -------------
 
