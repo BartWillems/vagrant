@@ -3,7 +3,7 @@ import quamotion
 import sys
 
 if len(sys.argv) != 4:
-	print('./demo-ios.py [udid] [user] [password]')
+	print('./demo-android.py [udid] [user] [password]')
 	sys.exit()
 
 udid = sys.argv[1]

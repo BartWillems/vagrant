@@ -7,7 +7,7 @@ import quamotion
 import sys
 
 if len(sys.argv) != 3:
-	print('./demo-ios.py -i [udid] [mail]')
+	print('./demo-ios-mail.py -i [udid] [mail]')
 	sys.exit()
 
 udid = sys.argv[1]
