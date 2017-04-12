@@ -76,7 +76,7 @@ Procedure for connecting an iOS device
 * Open VirtualBox
 * Open the settings for your Vagrant VM
 * Click USB
-* Add your iPhome to your VM
+* Add your iPhone to your VM
 * You may need to unplug and reconnect your iPhone
 * On your iPhone, trust your VM if required
 * Restart the Quamotion service if required
