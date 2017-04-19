@@ -10,21 +10,21 @@ git clone https://github.com/libimobiledevice/libimobiledevice ~/git/libimobiled
 git clone https://github.com/libimobiledevice/usbmuxd ~/git/usbmuxd
 
 cd ~/git/libplist
-./autogen.sh --prefix=/usr/
+./autogen.sh --prefix=/usr/ --without-cython
 make
 make install
 
 cd ~/git/libusbmuxd
-./autogen.sh --prefix=/usr/
+./autogen.sh --prefix=/usr/ --without-cython
 make
 make install
 
 cd ~/git/libimobiledevice
-./autogen.sh --prefix=/usr/
+./autogen.sh --prefix=/usr/ --without-cython
 make
 make install
 
 cd ~/git/usbmuxd
-./autogen.sh --prefix=/usr/
+./autogen.sh --prefix=/usr/ --without-cython
 make
 make install
