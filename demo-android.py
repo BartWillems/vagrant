@@ -39,6 +39,8 @@ try:
 	driver.find_element_by_id('com.mobileiron:id/password_edit').click()
 	driver.find_element_by_id('com.mobileiron:id/password_edit').clear()
 	driver.find_element_by_id('com.mobileiron:id/password_edit').send_keys(password + '\\n')
+	driver.find_element_by_id('com.mobileiron:id/button_registration_signin').click()
+	driver.find_element_by_id('com.mobileiron:id/tos_accept').click()
 except WebDriverException as e:
 	print('An error occurred')
 	print(str(e))
