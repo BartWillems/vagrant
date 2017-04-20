@@ -27,7 +27,7 @@ apt-get install -y libgdiplus
 apt-get install -y jq
 
 # Download and install the Quamotion software
-version=0.1.6525.0
+version=0.1.6573
 wget -nv -nc https://qmcdn.blob.core.windows.net/download/quamotion-webdriver.$version-ubuntu.16.04-x64.tar.gz -O /vagrant/quamotion-webdriver.$version-ubuntu.16.04-x64.tar.gz
 mkdir -p /usr/share/quamotion/
 tar -C /usr/share/quamotion/ -xzf /vagrant/quamotion-webdriver.$version-ubuntu.16.04-x64.tar.gz
