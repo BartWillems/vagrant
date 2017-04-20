@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   # We use Ubuntu 16.04. You should be free to update to a more recent version of the Ubuntu
   # 16.04 Vagrant box at any time; we pin a specific version here to make the builds reproducable.
   config.vm.box = "ubuntu/xenial64"
-  config.vm.box_version = "20170331.0.0"
+  config.vm.box_version = "20170419.0.0"
 
   config.vm.network "forwarded_port", guest: 17894, host: 8081
 
