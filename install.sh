@@ -95,4 +95,5 @@ fi
 chown -R ubuntu /usr/share/quamotion/App_Data/
 
 # Good to go!
-systemctl start quamotion
+# Enable the quamotion service so that it persists between reboots
+systemctl enable --now quamotion
