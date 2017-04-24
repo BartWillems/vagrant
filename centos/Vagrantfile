@@ -2,10 +2,14 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/centos-7.1"
-  config.vm.box_version = "2.2.2"
+  # There are official Vagrant boxes for CentOS, but they do not ship with the VirtualBox extensions,
+  # making it difficult to use shared folders on non-Linux operating systems. See
+  # https://seven.centos.org/2017/04/updated-centos-vagrant-images-available-v1703-01/
+  config.vm.box = "bento/centos-7.3"
+  config.vm.box_version = "2.3.4"
 
   config.vm.network "forwarded_port", guest: 17894, host: 8082
+  config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
