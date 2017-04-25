@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "forwarded_port", guest: 17894, host: 8082
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+  config.vm.synced_folder "..", "/qmdata", type: "virtualbox"
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
