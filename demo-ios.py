@@ -5,6 +5,7 @@ import time
 from time import gmtime, strftime
 import quamotion
 import sys
+import requests
 
 if len(sys.argv) != 4:
 	print('./demo-ios.py [udid] [user] [password]')
@@ -13,8 +14,36 @@ if len(sys.argv) != 4:
 udid = sys.argv[1]
 user = sys.argv[2]
 password = sys.argv[3]
+core_fqdn = 'emm.mob.co'
 
 print('Running tests on iOS device ' + udid + ' as user ' + user)
+
+try:
+	print('Retiring device from MDM')
+
+	devices = requests.get('https://{}/api/v1/dm/devices'.format(core_fqdn), auth=(user, password)).json()
+
+	for device in devices['devices']['device']:
+		if device['principal'] == 'quamotion':
+			details = device['details']
+			detail = details[0]
+			entries = detail['entry']
+
+			for entry in entries:
+				if entry['key'] == 'iPhone UDID':
+					print(entry)
+					mdm_ios_udid = entry['value']
+					mdm_uuid = device['uuid']
+
+					print('Retiring iOS device with iOS UDID ' + mdm_ios_udid + ' and MDM UUID ' + mdm_uuid)
+
+					r_url = ('https://{}/api/v1/dm/devices/retire/{}?Reason={}'.format(core_fqdn, mdm_uuid, 'Monitoring script'))
+					requests.put(r_url, auth=(user, password))
+
+except Exception as e:
+	print(str(e))
+	print('Failed to retire the device. If the device was not previously registered with MDM, you can ignore this.')
+	pass
 
 # Launch a new session on an iOS device
 driver = quamotion.device(udid)
@@ -57,7 +86,9 @@ try:
 	driver.find_element_by_xpath('//XCUIElementTypeButton[@name="PurchaseButton"]').click()
 
 	print('Clicking on the OPEN button')
+	driver.implicitly_wait(120)
 	driver.find_element_by_xpath('//XCUIElementTypeButton[@label="OPEN"]').click()
+	driver.implicitly_wait(60)
 
 	# Accept the 'MobileIron would like to send you notifications' alert
 	print('Accepting the "MobileIron Would Like to Send You Notifications" alert')
@@ -74,8 +105,15 @@ try:
 	driver.find_element_by_xpath('//XCUIElementTypeTextField[@label="Server"]').click()
 	driver.find_element_by_xpath('//XCUIElementTypeTextField[@label="Server"]').send_keys('emm.mob.co\n')
 
-	#print('Accepting the Open this page in "MobileIron"? alert')
-	#driver.switch_to_alert().accept()
+	try:
+		driver.implicitly_wait(10)
+		print('Accepting the Open this page in "MobileIron"? alert')
+		driver.switch_to_alert().accept()
+	except:
+		print('Could not click the Open this page in "MobileIron"? alert. Continuing')
+		pass
+
+	driver.implicitly_wait(60)
 
 	print('Enting the password')
 	driver.find_element_by_xpath('//XCUIElementTypeSecureTextField[@label="Password"]').click()
@@ -91,7 +129,7 @@ try:
 	#
 	# If at this point in time, you have a Mobile@Work screen with a 'Log In' button, this
 	# means the device is still somehow managed and you'll need to undo that first.
-	sys.exit(0)
+	# sys.exit(0)
 
 	print('Accepting the Terms of Service')
 	driver.find_element_by_xpath('//XCUIElementTypeButton[@label="Accept"]').click()
@@ -102,9 +140,12 @@ try:
 
 	print('Accepting Updating Configuration alert')
 	try:
+		driver.implicitly_wait(10)
 		driver.switch_to_alert().accept()
 	except:
 		pass
+
+	driver.implicitly_wait(60)
 
 	print('Installing the Profile')
 	# First install button in the upper right corner of the page
@@ -133,12 +174,11 @@ try:
 	time.sleep(2)
 	# driver.find_element_by_xpath('//XCUIElementTypeButton[@label="Done"]').click()
 
-	time.sleep(30)
 	print('Accepting app installation for e-mail')
 	driver.switch_to_alert().accept()
 
-	print('Waiting for the e-mail client to install')
-	time.sleep(30)
+	print('Accepting app installation for Enterprise Files')
+	driver.switch_to_alert().accept()
 
 except WebDriverException as e:
 	print('An error occurred')
@@ -146,4 +186,3 @@ except WebDriverException as e:
 
 finally:
 	driver.quit()
-
