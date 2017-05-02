@@ -14,7 +14,7 @@ if len(sys.argv) != 4:
 udid = sys.argv[1]
 user = sys.argv[2]
 password = sys.argv[3]
-core_fqdn = 'emm.mob.co'
+core_fqdn = sys.argv[4]
 
 print('Running tests on iOS device ' + udid + ' as user ' + user)
 
@@ -24,7 +24,7 @@ try:
 	devices = requests.get('https://{}/api/v1/dm/devices'.format(core_fqdn), auth=(user, password)).json()
 
 	for device in devices['devices']['device']:
-		if device['principal'] == 'quamotion':
+		if device['principal'] == user:
 			details = device['details']
 			detail = details[0]
 			entries = detail['entry']
@@ -103,7 +103,7 @@ try:
 
 	print('Setting the Server')
 	driver.find_element_by_xpath('//XCUIElementTypeTextField[@label="Server"]').click()
-	driver.find_element_by_xpath('//XCUIElementTypeTextField[@label="Server"]').send_keys('emm.mob.co\n')
+	driver.find_element_by_xpath('//XCUIElementTypeTextField[@label="Server"]').send_keys(core_fqdn + '\n')
 
 	try:
 		driver.implicitly_wait(10)
